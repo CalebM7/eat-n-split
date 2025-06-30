@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const initialFriends = [
   {
     id: 118836,
@@ -19,16 +21,27 @@ const initialFriends = [
   },
 ];
 
+function Button({ children, onClick }) {
+  return <button className="button" onClick={onClick}>{children}</button>;
+}
+
 export default function App() {
+  const [showAddFriend, setShowAddFriend] = useState(false);
+
+  function handleShowAddFriend() {
+    setShowAddFriend((show) => !show);
+  }
+
+  
   return (
     <div className="app">
       <div className="sidebar">
         <FriendsList />
-        <FormAddFriend />
-        <Button>Add friend</Button>
+        {showAddFriend && <FormAddFriend />}
+        <Button onClick={handleShowAddFriend}>{showAddFriend ? 'Close' : 'Add friend'}</Button>
       </div>
 
-        <FormSplitBill />
+      <FormSplitBill />
     </div>
   );
 }
@@ -68,25 +81,19 @@ function Friend({ friend }) {
   );
 }
 
-function Button({children}) {
-  return (
-    <button className="button">{children}</button>
-  )
-}
-
 
 function FormAddFriend() {
   return (
-     <form className="form-add-friend">
+    <form className="form-add-friend">
       <label>👫 Friend name</label>
-      <input type="text"/>
+      <input type="text" />
 
       <label>🌄 Image URL</label>
-      <input type="text"/>
+      <input type="text" />
 
       <Button>Add</Button>
-     </form>
-  )
+    </form>
+  );
 }
 
 function FormSplitBill() {
@@ -95,21 +102,21 @@ function FormSplitBill() {
       <h2>Split a bill with X</h2>
 
       <label>💰 Bill value</label>
-      <input type="text"/>
+      <input type="text" />
 
       <label>🚶‍♂️ Your expenses</label>
-      <input type="text"/>
+      <input type="text" />
 
       <label>👫 X's expenses</label>
-      <input type="text" disabled/>
+      <input type="text" disabled />
 
       <label>🤑 Who is paying the bill?</label>
       <select>
-        <option value='user'>You</option>
-        <option value='friend'>X'</option>
+        <option value="user">You</option>
+        <option value="friend">X'</option>
       </select>
 
       <Button>Split bill</Button>
     </form>
-  )
+  );
 }
